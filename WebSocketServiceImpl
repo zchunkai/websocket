@@ -1,0 +1,37 @@
+package cn.platform.thinglinks.monitor.hk.hkSdk;
+
+import cn.platform.thinglinks.monitor.utils.OneWebSocket;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
+
+import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
+/**
+* @description service中直接调用websocket推送消息
+* @className WebSocketServiceImpl
+* @author zck
+*@date 2023/1/9 17:32
+**/
+@Slf4j
+@Component
+public class WebSocketServiceImpl {
+
+    @Autowired
+    private OneWebSocket webSocket;
+    public void setWebSocket(){
+        for (OneWebSocket oneWebSocket : webSocket.getWebSocketSet()) {
+            try {
+                Map<String, Object> map = new HashMap<>();
+                log.info("发送数据:{}","你好啊");
+                map.put("msg","你好啊");
+                oneWebSocket.sendMessage(map);
+                log.info("发送成功:{}",map);
+            }catch (IOException e) {
+                System.out.println("socket 数据发失败，错误信息为："+e.getMessage());
+                return;
+            }
+        }
+    }
+}
